@@ -60,16 +60,7 @@ button{
   <p id="msg"></p>
 </section>
 
-<section class="admin">
-  <h3>🔐 لوحة التحكم (بكلمة سر)</h3>
-  <input type="password" id="adminPass" placeholder="كلمة السر">
-  <button onclick="login()">دخول</button>
 
-  <div id="orders" style="display:none"></div>
-</section>
-
-<script>
-var PASSWORD = "123456";
 
 document.getElementById("orderForm").onsubmit = function(e){
   e.preventDefault();
