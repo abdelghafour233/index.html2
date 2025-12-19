@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>المتجر الإلكتروني</title>
+
+<style>
+body{
+  font-family: Tahoma, Arial;
+  background:#f5f5f5;
+  margin:0;
+}
+header{
+  background:#111;
+  color:#fff;
+  padding:15px;
+  text-align:center;
+}
+section{
+  background:#fff;
+  margin:20px;
+  padding:20px;
+  border-radius:8px;
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+button{
+  background:#0d6efd;
+  color:#fff;
+  border:0;
+  cursor:pointer;
+}
+.admin{
+  background:#eee;
+  padding:10px;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛒 المتجر الإلكتروني</h1>
+</header>
+
+<section>
+  <h2>طلب المنتج</h2>
+
+  <form id="orderForm">
+    <input id="name" placeholder="الاسم الكامل" required>
+    <input id="city" placeholder="المدينة" required>
+    <input id="phone" placeholder="رقم الهاتف" required>
+    <button type="submit">إرسال الطلب</button>
+  </form>
+
+  <p id="msg"></p>
+</section>
+
+<section class="admin">
+  <h3>🔐 لوحة التحكم (بكلمة سر)</h3>
+  <input type="password" id="adminPass" placeholder="كلمة السر">
+  <button onclick="login()">دخول</button>
+
+  <div id="orders" style="display:none"></div>
+</section>
+
+<script>
+var PASSWORD = "123456";
+
+document.getElementById("orderForm").onsubmit = function(e){
+  e.preventDefault();
+
+  var order = {
+    name: name.value,
+    city: city.value,
+    phone: phone.value,
+    date: new Date().toLocaleString("ar-MA")
+  };
+
+  var orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  document.getElementById("msg").innerText = "✅ تم إرسال الطلب بنجاح";
+  this.reset();
+};
+
+function login(){
+  if(adminPass.value !== PASSWORD){
+    alert("كلمة السر غير صحيحة");
+    return;
+  }
+
+  var orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  var html = "<h4>📦 الطلبات:</h4>";
+
+  orders.forEach(function(o){
+    html += `<p>
+      <strong>${o.name}</strong><br>
+      ${o.city} – ${o.phone}<br>
+      ${o.date}
+    </p><hr>`;
+  });
+
+  document.getElementById("orders").innerHTML = html;
+  document.getElementById("orders").style.display = "block";
+}
+</script>
+
+</body>
+</html>
